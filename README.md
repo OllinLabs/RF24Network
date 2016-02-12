@@ -1,8 +1,6 @@
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/svarmo/rf24network/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![ollinlabs](https://img.shields.io/badge/status-stable-brightgreen.svg)]()
 
-[![svarmo](https://img.shields.io/badge/status-stable-brightgreen.svg)]()
-
-[![svarmo](https://img.shields.io/badge/platform-arduino-lightgrey.svg)]() [![svarmo](https://img.shields.io/badge/mcu-ATmega328P-lightgrey.svg)]()
+[![ollinlabs](https://img.shields.io/badge/platform-arduino-lightgrey.svg)]() [![svarmo](https://img.shields.io/badge/mcu-ATmega328P-lightgrey.svg)]()
 
 
 # DYNAMIC ADDRESSING - SELF BALANCING Network Layer for nRF24L01(+) radios. (FOR ARDUINO ATMega)
