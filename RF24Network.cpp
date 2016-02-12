@@ -147,7 +147,7 @@ bool RF24Network::beginAddressRequestProcedure(void (*_callback)(uint8_t channel
         uint8_t sendAddressRequestRetry = 0;
         bool isMessageSent = false;
         while (!isMessageSent && sendAddressRequestRetry < 5) {
-            delay(75 * getAddressRetries);
+            delay(75 * sendAddressRequestRetry);
             isMessageSent = write(header, &bytes, sizeof(bytes), true);
             sendAddressRequestRetry++;
             IF_SERIAL_DEBUG(
@@ -163,9 +163,12 @@ bool RF24Network::beginAddressRequestProcedure(void (*_callback)(uint8_t channel
             radio.setChannel(channel);
             IF_SERIAL_DEBUG(
                 Serial.print(" -> No reply, changing channel: ");
-                Serial.println(channel);
+                Serial.print(channel);
+                Serial.print(" Try #");
+                Serial.println(getAddressRetries);
             );
             delay(2);
+            getAddressRetries++;
             continue;
         } else {
             // The address request message was sent, wait for a reply
@@ -174,7 +177,6 @@ bool RF24Network::beginAddressRequestProcedure(void (*_callback)(uint8_t channel
                 update();
             }
         }
-        getAddressRetries++;
     }
 
     /**

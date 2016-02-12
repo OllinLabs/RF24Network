@@ -183,17 +183,6 @@ public:
     void begin(uint8_t _channel, uint16_t _node_address );
 
     /**
-     * Bring up the network in multicast mode only.
-     * The node will not be reachable directly but will only listen to
-     * multicast messages.
-     *
-     * @warning Be sure to 'begin' the radio first.
-     *
-     * @param _channel The RF channel to operate on
-     */
-    void beginInMulticastMode(uint8_t _channel);
-
-    /**
      * Initiates the address request procedure in a node.
      * this method will return true if the procedure succeeds, false otherwise
      *
@@ -287,6 +276,7 @@ public:
     const static uint16_t multicastHeaderAddress = 065535;
 
 private:
+    void beginInMulticastMode(uint8_t _channel);
     void open_pipes(void);
     uint16_t find_node(uint16_t current_node, uint16_t target_node);
     bool write(uint16_t);

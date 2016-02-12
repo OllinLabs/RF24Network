@@ -41,8 +41,6 @@ void setup(void) {
     Serial.print("Address: ");
     Serial.println(nodeAddress);
 
-    setupLeds();
-
     SPI.begin();
     radio.begin();
     network.begin(channel, nodeAddress);
@@ -52,7 +50,7 @@ void loop(void) {
     network.update();
 
     unsigned long now = millis();
-    bool sendToBase = (now % 2 == 0);
+    bool multicast = (now % 2 == 0);
     if (now - lastRxTimestamp >= 2000) {
         lastRxTimestamp = now;
         payload_t payload = {
@@ -61,12 +59,18 @@ void loop(void) {
         };
 
         bool ok = false;
-        uint16_t destinationNode = sendToBase ? baseNode : multicastAddress;
         Serial.print("Sending message to: ");
-        Serial.print(destinationNode);
-        RF24NetworkHeader header(destinationNode);
-        ok = network.write(header,&payload,sizeof(payload));
+        if (!multicast) {
+            Serial.print(baseNode);
+            RF24NetworkHeader header(baseNode);
+            ok = network.write(header, &payload, sizeof(payload));
+
+        } else {
+            Serial.print("multicast");
+            RF24NetworkHeader header(baseNode);
+            ok = network.writeMulticast(header, &payload, sizeof(payload));
+        }
+
         Serial.println(ok ? " ... ok." : "... failed.");
-        blinkLed(ok, destinationNode);
     }
 }
